@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+#status {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(39, 20px); /* Default for 20 layers */
+    gap: 2px;
+    background-color: #fff;
+    padding: 10px;
+    border: 2px solid #333;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    position: relative;
+}
+
+.cell.h { background-color: green; }
+.cell.e { background-color: yellow; }
+.cell.i { background-color: red; }
+.cell.f { background-color: purple; }
+.cell.d { background-color: black; }
+.cell.o { background-color: white; }
+
+.cell:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.controls {
+    margin: 20px 0;
+    display: flex;
+    gap: 20px;
+}
+
+.control-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control-button:hover {
+    background-color: #0056b3;
+}
+
+.params {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.param {
+    margin: 10px 0;
+}
+
+.param label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+.param input[type="range"] {
+    width: 200px;
+}
+
+.param span {
+    margin-left: 10px;
+}
+
+.toggle-container {
+    display: inline-block;
+    position: relative;
+}
+
+.toggle-container input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-container label {
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggle-container label::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.toggle-container input:checked + label {
+    background-color: #28a745;
+}
+
+.toggle-container input:checked + label::before {
+    transform: translateX(30px);
+}
