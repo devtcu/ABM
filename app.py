@@ -14,7 +14,7 @@ def index():
 def start():
     global abm
     data = request.json
-    layers = int(data.get('layers', 20))
+    layers = int(data.get('layers', 10))
     probi = float(data.get('probi', 0.2))
     fusion_prob = float(data.get('fusion_prob', 0.05))
     abm = ViralABM(layers=layers, probi=probi, fusion_prob=fusion_prob)

@@ -7,33 +7,37 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Viral ABM Simulation</h1>
-    <div id="status">Time: 0.0 hours | Healthy: 0 | Eclipse: 0 | Infected: 0 | Fused: 0 | Dead: 0</div>
-    <div id="grid-container" class="grid-container"></div>
-    <div class="controls">
-        <button id="start-btn" class="control-button">Start Simulation</button>
-        <button id="step-btn" class="control-button">Step Forward</button>
-        <div class="toggle-container">
-            <input type="checkbox" id="pause">
-            <label for="pause"></label>
-            <span class="pause-label">Pause</span>
-        </div>
+    <div class="intro-overlay" id="intro-overlay">
+        <div class="hex-grid"></div>
     </div>
-    <div class="params">
-        <div class="param">
-            <label>Infection Probability:</label>
-            <input type="range" id="probi" min="0" max="1" step="0.01" value="0.2">
-            <span id="probi-value">0.2</span>
+    <div class="simulation-container" id="simulation-container">
+        <h1>Viral ABM Simulation</h1>
+        <div id="status">Time: 0.0 hours | Healthy: 0 | Eclipse: 0 | Infected: 0 | Fused: 0 | Dead: 0</div>
+        <div id="grid-container" class="grid-container"></div>
+        <div class="controls">
+            <button id="start-btn" class="control-button">Start Simulation</button>
+            <button id="step-btn" class="control-button">Step Forward</button>
+            <div class="toggle-container">
+                <input type="checkbox" id="pause">
+                <label for="pause" class="pause-label">Pause</label>
+            </div>
         </div>
-        <div class="param">
-            <label>Fusion Probability:</label>
-            <input type="range" id="fusion-prob" min="0" max="0.1" step="0.001" value="0.05">
-            <span id="fusion-prob-value">0.05</span>
-        </div>
-        <div class="param">
-            <label>Number of Layers:</label>
-            <input type="range" id="layers" min="10" max="50" step="1" value="20">
-            <span id="layers-value">20</span>
+        <div class="params">
+            <div class="param">
+                <label for="probi">Infection Probability:</label>
+                <input type="range" id="probi" min="0" max="1" step="0.01" value="0.2">
+                <span id="probi-value">0.2</span>
+            </div>
+            <div class="param">
+                <label for="fusion-prob">Fusion Probability:</label>
+                <input type="range" id="fusion-prob" min="0" max="0.1" step="0.001" value="0.05">
+                <span id="fusion-prob-value">0.05</span>
+            </div>
+            <div class="param">
+                <label for="layers">Number of Layers:</label>
+                <input type="range" id="layers" min="10" max="50" step="1" value="10">
+                <span id="layers-value">10</span>
+            </div>
         </div>
     </div>
     <script src="/static/script.js"></script>

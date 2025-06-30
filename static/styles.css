@@ -1,31 +1,36 @@
 body {
-    font-family: Calibre, "San Francisco", "SF Pro Text", -apple-system, system-ui, BlinkMacSystemFont, Roboto, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(87, 102, 144);
-   
+    background: linear-gradient(135deg, #1a1a2e 0%, #00b4d8 100%);
     margin: 0;
-    padding: 20px;
+    padding: 2vw;
+    color: #e0e0e0;
+    min-height: 100vh;
+}
+
+h1, #status, .param label, .param span, .pause-label {
+    color: #e0e0e0;
 }
 
 h1 {
-    color: rgb(204, 214, 246);
+    font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
 #status {
-    margin: 10px 0;
+    margin: 1rem 0;
     font-weight: bold;
-    color: rgb(204, 214, 246);
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 22px;
-    height: 22px;
+    width: 1.2rem;
+    height: 1.2rem;
     border-radius: 50%;
-    background: #007bff; /* Change this to your desired color */
+    background: #007bff;
     border: 2px solid #fff;
     box-shadow: 0 0 2px #333;
     cursor: pointer;
@@ -38,18 +43,19 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(39, 20px); /* Default for 20 layers */
-    gap: 2px;
-    background-color: #ffffff;
-    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+    gap: 0.1rem;
+    background-color: #fff;
+    padding: 0.5rem;
     border: 2px solid #333;
+    max-width: 90vw;
+    box-sizing: border-box;
 }
 
 .cell {
-    width: 20px;
-    height: 20px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    position: relative;
 }
 
 .cell.h { background-color: green; }
@@ -65,96 +71,93 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 .controls {
-    margin: 20px 0;
+    margin: 1rem 0;
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
 }
 
 .control-button {
-    padding: 10px 20px;
-    background-color: white;
-    color: #007bff;
-    font-weight: bold;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 50px;
+    border-radius: 25px;
     cursor: pointer;
     transition: opacity 500ms, color 500ms, box-shadow 300ms;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 .control-button:hover {
-    background-color: #007bff;
+    background-color: #0056b3;
     color: white;
-    box-shadow: -5px 1px 5px rgba(98, 95, 95, 0.7);
+    box-shadow: -3px 1px 3px rgba(98, 95, 95, 0.7);
 }
 
 .params {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 25px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: min(90%, 600px);
 }
 
 .param {
-    margin: 10px 0;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .param label {
-    display: inline-block;
-    width: 150px;
+    width: min(120px, 30%);
     font-weight: bold;
-    color: #007bff;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 .param input[type="range"] {
-    width: 200px;
+    flex: 1;
+    min-width: 100px;
+    max-width: 200px;
 }
 
 .param span {
-    margin-left: 10px;
+    margin-left: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 .toggle-container {
     display: flex;
-    position: relative;
     flex-direction: column;
     align-items: center;
-    margin-left: 40px;
-    gap: 5px;
+    gap: 0.3rem;
 }
 
 .toggle-container input[type="checkbox"] {
     display: none;
 }
 
-.pause-label {
-    margin-left: 0px;
-    color: rgb(204, 214, 246);
-
-}
-
-
 .toggle-container label {
-    display: inline-block;
-    width: 60px;
-    height: 30px;
+    width: 3rem;
+    height: 1.5rem;
     background-color: #ccc;
-    border-radius: 15px;
+    border-radius: 0.75rem;
     position: relative;
     cursor: pointer;
     transition: background-color 0.3s;
-    
-    margin-left: 2px;
 }
 
 .toggle-container label::before {
     content: '';
     position: absolute;
-    width: 26px;
-    height: 26px;
+    width: 1.3rem;
+    height: 1.3rem;
     background-color: white;
     border-radius: 50%;
-    top: 2px;
-    left: 2px;
+    top: 0.1rem;
+    left: 0.1rem;
     transition: transform 0.3s;
 }
 
@@ -163,5 +166,88 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 .toggle-container input:checked + label::before {
-    transform: translateX(30px);
+    transform: translateX(1.5rem);
+}
+
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #00b4d8 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.intro-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.hex-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(20px, 3vw));
+    gap: 0.3rem;
+}
+
+.hex {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #e0e0e0;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    animation: scatter 2s ease-out forwards;
+    animation-delay: calc(0.05s * var(--i));
+}
+
+@keyframes scatter {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.5) translate(calc(var(--dx) * 10vw), calc(var(--dy) * 10vw));
+        opacity: 0;
+    }
+}
+
+.simulation-container {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease 2.5s;
+    width: 100%;
+    max-width: 90vw;
+}
+
+.simulation-container.visible {
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(0.8rem, 1fr));
+    }
+    .param {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .param label {
+        width: 100%;
+    }
+    .param input[type="range"] {
+        width: 100%;
+        max-width: none;
+    }
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    .toggle-container {
+        margin-left: 0;
+    }
 }
