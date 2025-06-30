@@ -16,12 +16,15 @@ h1, #status, .param label, .param span, .pause-label {
 
 h1 {
     font-size: clamp(1.5rem, 4vw, 2rem);
+    text-align: center;
+
 }
 
 #status {
     margin: 1rem 0;
     font-weight: bold;
     font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    text-align: center;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -48,8 +51,11 @@ input[type="range"]::-webkit-slider-thumb:active {
     background-color: #fff;
     padding: 0.5rem;
     border: 2px solid #333;
+    border-radius: 50px;
     max-width: 90vw;
     box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 }
 
 .cell {
@@ -76,6 +82,7 @@ input[type="range"]::-webkit-slider-thumb:active {
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+   
 }
 
 .control-button {
@@ -101,6 +108,12 @@ input[type="range"]::-webkit-slider-thumb:active {
     border-radius: 25px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     width: min(90%, 600px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+   
 }
 
 .param {
@@ -108,7 +121,10 @@ input[type="range"]::-webkit-slider-thumb:active {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.9rem;
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .param label {
