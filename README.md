@@ -16,28 +16,30 @@ This project is a web-based simulation of a viral agent-based model, visualizing
 - NumPy
 - SciPy
 - Git
-- A modern web browser (e.g., Chrome, Firefox)
+- Web browsers like Chrome, Firefox, etc
 
 ## Installation
 1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/viral-abm-simulation.git
-   cd viral-abm-simulation
-  ```
+```bash
+git clone https://github.com/your-username/viral-abm-simulation.git
+cd viral-abm-simulation
+```
 
 2. **Set Up a Virtual Environment (recommended)**:
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 3. **Install Dependencies**:
-  ```bash
+```bash
 pip install flask numpy scipy
-  ```
+```
 
 
-Project Structure:
+4. **Project Structure**:
+```
 viral-abm-simulation/
 ├── app.py              # Flask backend for simulation logic
 ├── static/
@@ -46,55 +48,22 @@ viral-abm-simulation/
 ├── templates/
 │   ├── index.html      # Main HTML template
 ├── README.md           # This file
+```
 
 
+## Usage
 
-Usage
-
-Run the Application:
+1. **Run the Application**:
+```bash
 python app.py
+```
 
-
-Access the Simulation:
+2. **Access the Simulation**:
 
 Open your browser and navigate to http://localhost:5000.
-The simulation starts with a 2.7s hexagon intro animation, followed by sequential fade-in of the title, status, grid, controls, and parameters.
 
 
-Interact with the Simulation:
-
-Sliders: Adjust Number of Layers (10–50), Infection Probability, and Fusion Probability.
-Buttons:
-Start/Stop Simulation: Runs or stops the simulation, updating every 1s up to 24 hours.
-Step Forward: Advances the simulation by one time step (1 hour).
-
-
-Pause Toggle: Pauses the simulation while keeping the Start button active.
-The grid updates dynamically, with cell sizes shrinking as layers increase (e.g., 0.8rem at 10 layers, 0.4rem at 50 layers).
-The grid is capped at 30rem wide and 70vh tall, with vertical scrolling if needed.
-
-
-
-Customization
-To adjust the grid size, modify the following in static/styles.css:
-
-Grid Width: Change max-width: min(90vw, 30rem) in .grid-container. For example:
-35rem for a wider grid.
-25rem for a smaller grid.
-
-
-Grid Height: Change max-height: 70vh in .grid-container. For example:
-80vh for a taller grid (params may extend further off-screen).
-60vh for a shorter grid.
-
-
-Mobile Height: Change max-height: 50vh in the @media (max-width: 600px) block.
-
-To adjust cell size scaling, modify static/script.js in the renderGrid function:
-
-Update cellSize = Math.max(0.4, 0.8 - (layers - 10) * 0.01) to change the range (e.g., 0.9 to 0.5).
-
-Debugging
+## Debugging
 
 Open your browser’s Developer Tools (F12) and check the Console for logs:
 Rendering grid with data shows layer count and cell size.
@@ -105,5 +74,5 @@ Errors like Invalid data format or Element at index X not found indicate issues 
 Inspect .grid-container in the Elements tab to verify grid-template-columns (e.g., repeat(10, 0.8rem)) and max-width.
 Test with the layers slider (10–50) in minimized and maximized windows.
 
-Contributing
+## Contributing
 Feel free to submit issues or pull requests to improve the simulation, such as adding new features (e.g., a logo-shaped intro animation) or refining the UI.```
