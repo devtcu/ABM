@@ -63,16 +63,5 @@ python app.py
 Open your browser and navigate to http://localhost:5000.
 
 
-## Debugging
-
-Open your browser’s Developer Tools (F12) and check the Console for logs:
-Rendering grid with data shows layer count and cell size.
-Element X made visible at Yms confirms sequential fade-in timing.
-Errors like Invalid data format or Element at index X not found indicate issues with data or DOM elements.
-
-
-Inspect .grid-container in the Elements tab to verify grid-template-columns (e.g., repeat(10, 0.8rem)) and max-width.
-Test with the layers slider (10–50) in minimized and maximized windows.
-
 ## Contributing
-Feel free to submit issues or pull requests to improve the simulation, such as adding new features (e.g., a logo-shaped intro animation) or refining the UI.```
+Feel free to submit issues or pull requests to improve the simulation, such as adding new features or refining the UI.
