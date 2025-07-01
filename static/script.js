@@ -37,13 +37,31 @@ function createIntroHexGrid() {
         hexGrid.appendChild(hex);
     }
     setTimeout(() => {
-        if (introOverlay && simulationContainer) {
+        if (introOverlay) {
             introOverlay.classList.add('hidden');
-            simulationContainer.classList.add('visible');
+            console.log('Intro overlay hidden');
         } else {
-            console.error('Intro overlay or simulation container not found');
+            console.error('Intro overlay not found');
         }
     }, 2700);
+    // Staggered appearance of elements
+    const elements = [
+        simulationContainer.querySelector('h1'),
+        statusDiv,
+        gridContainer,
+        simulationContainer.querySelector('.controls'),
+        simulationContainer.querySelector('.params')
+    ];
+    elements.forEach((el, index) => {
+        if (el) {
+            setTimeout(() => {
+                el.classList.add('visible');
+                console.log(`Element ${index} (class: ${el.className}) made visible at ${2700 + index * 300}ms`);
+            }, 2700 + index * 300);
+        } else {
+            console.error(`Element at index ${index} not found`);
+        }
+    });
 }
 
 // Initialize intro animation
@@ -70,7 +88,10 @@ function renderGrid(data) {
     }
     console.log('Rendering grid with data:', data);
     gridContainer.innerHTML = '';
-    gridContainer.style.gridTemplateColumns = `repeat(${data.grid.length}, 20px)`;
+    const layers = data.grid.length;
+    // Calculate cell size: 0.8rem for 10 layers, scaling down to 0.4rem for 50 layers
+    const cellSize = Math.max(0.4, 0.8 - (layers - 10) * 0.01);
+    gridContainer.style.gridTemplateColumns = `repeat(${layers}, ${cellSize}rem)`;
     data.grid.forEach(row => {
         row.forEach(cell => {
             const div = document.createElement('div');
