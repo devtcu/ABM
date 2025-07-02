@@ -101,7 +101,14 @@ function renderGrid(data) {
             gridContainer.appendChild(div);
         });
     });
-    statusDiv.textContent = `Time: ${data.time.toFixed(1)} hours | Healthy: ${data.counts.h} | Eclipse: ${data.counts.e} | Infected: ${data.counts.i} | Fused: ${data.counts.f} | Dead: ${data.counts.d}`;
+    statusDiv.innerHTML = `
+        Time: ${data.time.toFixed(1)} hours |
+        <span class="state-healthy">Healthy: ${data.counts.h}</span> |
+        <span class="state-eclipse">Eclipse: ${data.counts.e}</span> |
+        <span class="state-infected">Infected: ${data.counts.i}</span> |
+        <span class="state-fused">Fused: ${data.counts.f}</span> |
+        <span class="state-dead">Dead: ${data.counts.d}</span>
+`;
     document.title = `Viral ABM Simulation - t=${data.time.toFixed(1)}`;
 }
 

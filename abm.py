@@ -19,7 +19,7 @@ This introduces biological variability, as real cells do not all follow identica
 differences in viral replication or cell response.
 """
 class ViralABM:
-    def __init__(self, layers, probi=0.2, fusion_prob=0.05, timestep=0.005, end_time=48, tau_e=3.0, tau_i=6.0, ne=30.0, ni=100.0, initial_infected=1):
+    def __init__(self, layers, probi=0.0, fusion_prob=0.05, timestep=0.005, end_time=48, tau_e=3.0, tau_i=6.0, ne=30.0, ni=100.0, initial_infected=1):
         self.layers = layers
         self.grid_size = 2 * layers - 1
         self.grid = np.full((self.grid_size, self.grid_size), EMPTY, dtype=str)
@@ -77,7 +77,7 @@ class ViralABM:
     We make copies of the states below to ensure that all updates
     happen on the current state, and only after the step is done,
     we assing these new steps back to the grid. The assigining can
-    be found at the end of this function
+    be found at the end of this function 
     """
     def step(self):
         new_grid = self.grid.copy()
