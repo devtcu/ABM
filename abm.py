@@ -10,8 +10,16 @@ DEAD = 'd'
 FUSED = 'f'
 EMPTY = 'o'
 
+"""  
+The gamma distribution is a probability distribution used to model 
+positive, continuous random variables, such as waiting times or 
+durations. In aour case, it is used to assign random durations for the eclipse 
+phase (time from infection to becoming infectious) and infection phase (time a cell produces virus before dying). 
+This introduces biological variability, as real cells do not all follow identical timing due to 
+differences in viral replication or cell response.
+"""
 class ViralABM:
-    def __init__(self, layers, probi=0.2, fusion_prob=0.05, timestep=0.005, end_time=24, tau_e=6.0, tau_i=12.0, ne=30.0, ni=100.0, initial_infected=1):
+    def __init__(self, layers, probi=0.2, fusion_prob=0.05, timestep=0.005, end_time=48, tau_e=6.0, tau_i=12.0, ne=30.0, ni=100.0, initial_infected=1):
         self.layers = layers
         self.grid_size = 2 * layers - 1
         self.grid = np.full((self.grid_size, self.grid_size), EMPTY, dtype=str)
@@ -23,7 +31,7 @@ class ViralABM:
         self.FUSION_PROB = fusion_prob
         self.TIMESTEP = timestep
         self.END_TIME = end_time
-        self.TAU_E = tau_e
+        self.TAU_E = tau_e #mean duration of eclipse state, so this is when a cell is infected but not producing virus YET
         self.TAU_I = tau_i
         self.NE = ne
         self.NI = ni
@@ -40,20 +48,24 @@ class ViralABM:
                 di = i - center
                 dj = j - center
                 dist = np.sqrt(di**2 + dj**2)
-                if dist <= radius:
+                if dist <= radius: #checking whether a cell at position (i,j) is within a certain distance from the center of the grid
                     self.grid[i, j] = HEALTHY
                     self.eclipse_times[i, j] = gamma.rvs(self.NE, scale=self.TAU_E/self.NE)
                     self.infection_times[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI)
                     num_cells += 1
         return num_cells
 
+    #As the function is titled, we start with one infected hexagon...
     def initialize_infected(self):
+        #creating a list of all grid coordinates where cells are healthy
         healthy_cells = [(i, j) for i in range(self.grid_size) for j in range(self.grid_size) if self.grid[i, j] == HEALTHY]
         infected = random.sample(healthy_cells, min(self.INITIAL_INFECTED, len(healthy_cells)))
         for i, j in infected:
             self.grid[i, j] = ECLIPSE
+            #now we can set how long it will be in the eclipse state before it infects
             self.eclipse_times[i, j] = gamma.rvs(self.NE, scale=self.TAU_E/self.NE)
 
+    #collects a list of the 6 possible neighbour cells and filters out the ones that are outside tour grid bounds or are makred empty
     def get_neighbors(self, i, j):
         neighbors = [
             (i-1, j), (i+1, j), (i, j-1), (i, j+1), (i-1, j+1), (i+1, j-1)
@@ -61,6 +73,12 @@ class ViralABM:
         return [(ni, nj) for ni, nj in neighbors
                 if 0 <= ni < self.grid_size and 0 <= nj < self.grid_size and self.grid[ni, nj] != EMPTY]
 
+    """ 
+    We make copies of the states below to ensure that all updates
+    happen on the current state, and only after the step is done,
+    we assing these new steps back to the grid. The assigining can
+    be found at the end of this function
+    """
     def step(self):
         new_grid = self.grid.copy()
         new_ecl = self.eclipse_times.copy()
