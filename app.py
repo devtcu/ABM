@@ -3,7 +3,7 @@ from abm import ViralABM
 
 app = Flask(__name__)
 
-# Store the ABM instance globally (for simplicity; consider session storage for production)
+# Store the ABM instance globally 
 abm = None
 
 @app.route('/')

@@ -116,61 +116,93 @@ function renderGrid(data) {
 if (startBtn) {
     startBtn.addEventListener('click', () => {
         if (!isRunning) {
-            isRunning = true;
-            startBtn.textContent = 'Stop Simulation';
-            fetch('/start', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    layers: parseInt(layersInput.value) || 20,
-                    probi: parseFloat(probiInput.value) || 0.2,
-                    fusion_prob: parseFloat(fusionProbInput.value) || 0.05
-                })
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error(`Start request failed: ${response.status} ${response.statusText}`);
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.error) throw new Error(`Server error: ${data.error}`);
-                    console.log('Start response:', data);
-                    renderGrid(data);
-                    currentTime = data.time;
-                    endTime = data.end_time || 24;
-                    intervalId = setInterval(() => {
-                        currentTime += 1.0;
-                        if (currentTime > endTime) {
-                            clearInterval(intervalId);
-                            isRunning = false;
-                            startBtn.textContent = 'Start Simulation';
-                            return;
-                        }
-                        fetch('/step', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ time: currentTime })
+            // Resume from pause
+            if (currentTime > 0 && currentTime < endTime) {
+                pauseToggle.checked = false; // Uncheck pause when resuming
+                isRunning = true;
+                startBtn.textContent = 'Stop Simulation';
+                intervalId = setInterval(() => {
+                    currentTime += 1.0;
+                    if (currentTime > endTime) {
+                        clearInterval(intervalId);
+                        isRunning = false;
+                        startBtn.textContent = 'Start Simulation';
+                        return;
+                    }
+                    fetch('/step', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ time: currentTime })
+                    })
+                        .then(response => {
+                            if (!response.ok) throw new Error(`Step request failed: ${response.status} ${response.statusText}`);
+                            return response.json();
                         })
-                            .then(response => {
-                                if (!response.ok) throw new Error(`Step request failed: ${response.status} ${response.statusText}`);
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.error) throw new Error(`Server error: ${data.error}`);
-                                console.log('Step response:', data);
-                                renderGrid(data);
-                            })
-                            .catch(error => console.error('Step error:', error));
-                    }, 500); //You can change this 500 if you want to change how long in real time a simulated hour takes - now it is set to 500ms
+                        .then(data => {
+                            if (data.error) throw new Error(`Server error: ${data.error}`);
+                            renderGrid(data);
+                        })
+                        .catch(error => console.error('Step error:', error));
+                }, 500);
+            } else {
+                // Start new simulation (reset)
+                isRunning = true;
+                startBtn.textContent = 'Stop Simulation';
+                pauseToggle.checked = false; // Uncheck pause on new start
+                fetch('/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        layers: parseInt(layersInput.value) || 20,
+                        probi: parseFloat(probiInput.value) || 0.2,
+                        fusion_prob: parseFloat(fusionProbInput.value) || 0.05
+                    })
                 })
-                .catch(error => {
-                    console.error('Start error:', error);
-                    isRunning = false;
-                    startBtn.textContent = 'Start Simulation';
-                });
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Start request failed: ${response.status} ${response.statusText}`);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) throw new Error(`Server error: ${data.error}`);
+                        renderGrid(data);
+                        currentTime = data.time;
+                        endTime = data.end_time || 24;
+                        intervalId = setInterval(() => {
+                            currentTime += 1.0;
+                            if (currentTime > endTime) {
+                                clearInterval(intervalId);
+                                isRunning = false;
+                                startBtn.textContent = 'Start Simulation';
+                                return;
+                            }
+                            fetch('/step', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ time: currentTime })
+                            })
+                                .then(response => {
+                                    if (!response.ok) throw new Error(`Step request failed: ${response.status} ${response.statusText}`);
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.error) throw new Error(`Server error: ${data.error}`);
+                                    renderGrid(data);
+                                })
+                                .catch(error => console.error('Step error:', error));
+                        }, 500);
+                    })
+                    .catch(error => {
+                        console.error('Start error:', error);
+                        isRunning = false;
+                        startBtn.textContent = 'Start Simulation';
+                    });
+            }
         } else {
+            // Stop simulation
             clearInterval(intervalId);
             isRunning = false;
             startBtn.textContent = 'Start Simulation';
+            pauseToggle.checked = false; // Uncheck pause when stopped
         }
     });
 }
@@ -205,9 +237,31 @@ if (stepBtn) {
 if (pauseToggle) {
     pauseToggle.addEventListener('change', () => {
         if (pauseToggle.checked && isRunning) {
+            // Pause simulation
             clearInterval(intervalId);
             isRunning = false;
             startBtn.textContent = 'Start Simulation';
+        } else if (!pauseToggle.checked && !isRunning && currentTime > 0 && currentTime < endTime) {
+            // Resume simulation from pause
+            isRunning = true;
+            startBtn.textContent = 'Stop Simulation';
+            intervalId = setInterval(() => {
+                currentTime += 1.0;
+                if (currentTime > endTime) {
+                    clearInterval(intervalId);
+                    isRunning = false;
+                    startBtn.textContent = 'Start Simulation';
+                    return;
+                }
+                fetch('/step', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ time: currentTime })
+                })
+                    .then(response => response.json())
+                    .then(data => renderGrid(data))
+                    .catch(error => console.error('Step error:', error));
+            }, 500);
         }
     });
 }
