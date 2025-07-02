@@ -78,6 +78,35 @@ if (probiInput && probiValue) probiInput.addEventListener('input', () => probiVa
 if (fusionProbInput && fusionProbValue) fusionProbInput.addEventListener('input', () => fusionProbValue.textContent = fusionProbInput.value);
 if (layersInput && layersValue) layersInput.addEventListener('input', () => layersValue.textContent = layersInput.value);
 
+if (layersInput) {
+    layersInput.addEventListener('input', () => {
+        // Only update preview if simulation is not running
+        if (!isRunning) {
+            fetch('/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    layers: parseInt(layersInput.value) || 20,
+                    probi: parseFloat(probiInput.value) || 0.2,
+                    fusion_prob: parseFloat(fusionProbInput.value) || 0.05
+                })
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`Preview request failed: ${response.status} ${response.statusText}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) throw new Error(`Server error: ${data.error}`);
+                    renderGrid(data);
+                    currentTime = data.time;
+                    endTime = data.end_time || 24;
+                })
+                .catch(error => console.error('Preview grid error:', error));
+        }
+    });
+}
+
+
 // Render simulation grid
 function renderGrid(data) {
     if (!gridContainer || !statusDiv) {
