@@ -17,7 +17,8 @@ def start():
     layers = int(data.get('layers', 10))
     probi = float(data.get('probi', 0.2))
     fusion_prob = float(data.get('fusion_prob', 0.05))
-    abm = ViralABM(layers=layers, probi=probi, fusion_prob=fusion_prob)
+    end_time = float(data.get('end_time', 60))
+    abm = ViralABM(layers=layers, probi=probi, fusion_prob=fusion_prob, end_time=end_time)
     return jsonify(abm.get_state(0))
 
 @app.route('/step', methods=['POST'])

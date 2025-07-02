@@ -1,6 +1,8 @@
 let currentTime = 0;
 let isRunning = false;
 let intervalId = null;
+let endTime = 24;
+
 
 const gridContainer = document.getElementById('grid-container');
 const statusDiv = document.getElementById('status');
@@ -127,9 +129,10 @@ if (startBtn) {
                     console.log('Start response:', data);
                     renderGrid(data);
                     currentTime = data.time;
+                    endTime = data.end_time || 24;
                     intervalId = setInterval(() => {
                         currentTime += 1.0;
-                        if (currentTime > 24.0) {
+                        if (currentTime > endTime) {
                             clearInterval(intervalId);
                             isRunning = false;
                             startBtn.textContent = 'Start Simulation';
@@ -150,7 +153,7 @@ if (startBtn) {
                                 renderGrid(data);
                             })
                             .catch(error => console.error('Step error:', error));
-                    }, 1000);
+                    }, 500); //You can change this 500 if you want to change how long in real time a simulated hour takes - now it is set to 500ms
                 })
                 .catch(error => {
                     console.error('Start error:', error);
@@ -170,7 +173,7 @@ if (stepBtn) {
     stepBtn.addEventListener('click', () => {
         if (!isRunning) {
             currentTime += 1.0;
-            if (currentTime <= 24.0) {
+            if (currentTime <=48.0) {
                 fetch('/step', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

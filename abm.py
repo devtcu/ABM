@@ -19,7 +19,7 @@ This introduces biological variability, as real cells do not all follow identica
 differences in viral replication or cell response.
 """
 class ViralABM:
-    def __init__(self, layers, probi=0.2, fusion_prob=0.05, timestep=0.005, end_time=48, tau_e=6.0, tau_i=12.0, ne=30.0, ni=100.0, initial_infected=1):
+    def __init__(self, layers, probi=0.2, fusion_prob=0.05, timestep=0.005, end_time=48, tau_e=3.0, tau_i=6.0, ne=30.0, ni=100.0, initial_infected=1):
         self.layers = layers
         self.grid_size = 2 * layers - 1
         self.grid = np.full((self.grid_size, self.grid_size), EMPTY, dtype=str)
@@ -105,14 +105,24 @@ class ViralABM:
                         new_grid[i, j] = INFECTED
                         new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI)
 
-        # Update infected cells
+        # Update infected cells - They only become INFECTED after their eclipse duration expires
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 if self.grid[i, j] == INFECTED:
                     if self.universal_times[i, j] > (self.infection_times[i, j] + self.eclipse_times[i, j] + self.healthy_times[i, j]):
                         new_grid[i, j] = DEAD
-
-        # Stochastic fusion
+                        
+        """ 
+        Stochastic fusion - fusion here is a stochastic process where 
+        two adjacent infected cells merge after infection. A random, but infected
+        neighbour is chosen for fusion to occurr.
+        
+        If fusion occurs, the cell avoids immediate death and enters the FUSED state. 
+        Otherwise, it may die if its infection time is up or remain INFECTED if not.
+        
+        delays cell death, as fused cells remain viable longer, producing 
+        virus or affecting spread dynamics.
+        """
         fused_pairs = set()
         random.shuffle(infected_cells)
         for i, j in infected_cells:
@@ -150,7 +160,8 @@ class ViralABM:
         return {
             'time': time,
             'grid': self.grid.tolist(),
-            'counts': counts
+            'counts': counts,
+            "end_time": self.END_TIME
         }
 
     def run_to_time(self, target_time):
