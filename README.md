@@ -8,7 +8,7 @@ This project is a web-based simulation of a viral agent-based model, visualizing
 - NumPy
 - SciPy
 - Git
-- Web browsers like Chrome, Firefox, etc
+- Web browser
 
 ## Installation
 1. **Clone the Repository**:
