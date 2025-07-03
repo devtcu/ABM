@@ -56,4 +56,4 @@ Open your browser and navigate to http://localhost:5000.
 
 
 ## Contributing
-Feel free to submit issues or pull requests to improve the simulation, such as adding new features or refining the UI.
+Feel free to submit issues or pull requests to improve the simulation, such as adding new features or refining the UI experience.
