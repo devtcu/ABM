@@ -12,8 +12,8 @@ EMPTY = 'o'
 
 """  
 The gamma distribution is a probability distribution used to model 
-positive, continuous random variables, such as waiting times or 
-durations. In aour case, it is used to assign random durations for the eclipse 
+positive, continuous random variables.. for example, durations. 
+In aour case, it is used to assign random durations for the eclipse 
 phase (time from infection to becoming infectious) and infection phase (time a cell produces virus before dying). 
 This introduces biological variability, as real cells do not all follow identical timing due to 
 differences in viral replication or cell response.
@@ -32,9 +32,9 @@ class ViralABM:
         self.TIMESTEP = timestep
         self.END_TIME = end_time
         self.TAU_E = tau_e #mean duration of eclipse state, so this is when a cell is infected but not producing virus YET
-        self.TAU_I = tau_i
-        self.NE = ne
-        self.NI = ni
+        self.TAU_I = tau_i #mean duration of the infection phase for cells in the infected state
+        self.NE = ne #shape parameter for the gamma distribution that determines the eclipse phase duration
+        self.NI = ni #shape parameter for the gamma distribution that determines the infection phase duration
         self.INITIAL_INFECTED = initial_infected
         self.initialize_grid()
         self.initialize_infected()
