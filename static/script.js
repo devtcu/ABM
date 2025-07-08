@@ -18,7 +18,7 @@ const layersValue = document.getElementById('layers-value');
 const introOverlay = document.getElementById('intro-overlay');
 const simulationContainer = document.getElementById('simulation-container');
 
-// Generate intro hexagon grid
+//generate intro fun hexagon grid
 function createIntroHexGrid() {
     const hexGrid = document.querySelector('.hex-grid');
     if (!hexGrid) {
@@ -46,7 +46,7 @@ function createIntroHexGrid() {
             console.error('Intro overlay not found');
         }
     }, 2700);
-    // Staggered appearance of elements
+    //staggered appearance of elements
     const elements = [
         simulationContainer.querySelector('h1'),
         statusDiv,
@@ -66,7 +66,7 @@ function createIntroHexGrid() {
     });
 }
 
-// Initialize intro animation
+// initialize intro animation
 if (introOverlay && simulationContainer) {
     createIntroHexGrid();
 } else {
@@ -120,7 +120,7 @@ function renderGrid(data) {
     console.log('Rendering grid with data:', data);
     gridContainer.innerHTML = '';
     const layers = data.grid.length;
-    // Calculate cell size: 0.8rem for 10 layers, scaling down to 0.4rem for 50 layers
+    // calculate cell size: 0.8rem for 10 layers, scaling down to 0.4rem for 50 layers
     const cellSize = Math.max(0.4, 0.8 - (layers - 10) * 0.01);
     gridContainer.style.gridTemplateColumns = `repeat(${layers}, ${cellSize}rem)`;
     data.grid.forEach(row => {
@@ -141,13 +141,13 @@ function renderGrid(data) {
     document.title = `Viral ABM Simulation - t=${data.time.toFixed(1)}`;
 }
 
-// Start simulation
+//start simulation
 if (startBtn) {
     startBtn.addEventListener('click', () => {
         if (!isRunning) {
-            // Resume from pause
+            //resume from pause
             if (currentTime > 0 && currentTime < endTime) {
-                pauseToggle.checked = false; // Uncheck pause when resuming
+                pauseToggle.checked = false; // unnncheck pause when resuming
                 isRunning = true;
                 startBtn.textContent = 'Stop Simulation';
                 intervalId = setInterval(() => {
@@ -174,10 +174,10 @@ if (startBtn) {
                         .catch(error => console.error('Step error:', error));
                 }, 500);
             } else {
-                // Start new simulation (reset)
+                // start new simulation (reset)
                 isRunning = true;
                 startBtn.textContent = 'Stop Simulation';
-                pauseToggle.checked = false; // Uncheck pause on new start
+                pauseToggle.checked = false; // uncheck pause on new start
                 fetch('/start', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -227,16 +227,16 @@ if (startBtn) {
                     });
             }
         } else {
-            // Stop simulation
+            //stop simulation
             clearInterval(intervalId);
             isRunning = false;
             startBtn.textContent = 'Start Simulation';
-            pauseToggle.checked = false; // Uncheck pause when stopped
+            pauseToggle.checked = false; //uncheck pause when stopped
         }
     });
 }
 
-// Step forward
+// step forward
 if (stepBtn) {
     stepBtn.addEventListener('click', () => {
         if (!isRunning) {
@@ -262,16 +262,16 @@ if (stepBtn) {
     });
 }
 
-// Pause toggle
+// pause toggle
 if (pauseToggle) {
     pauseToggle.addEventListener('change', () => {
         if (pauseToggle.checked && isRunning) {
-            // Pause simulation
+            // pause simulation
             clearInterval(intervalId);
             isRunning = false;
             startBtn.textContent = 'Start Simulation';
         } else if (!pauseToggle.checked && !isRunning && currentTime > 0 && currentTime < endTime) {
-            // Resume simulation from pause
+            // resume simulation from pause
             isRunning = true;
             startBtn.textContent = 'Stop Simulation';
             intervalId = setInterval(() => {
@@ -295,7 +295,7 @@ if (pauseToggle) {
     });
 }
 
-// Initial grid load
+// initial grid load
 setTimeout(() => {
     if (!layersInput || !probiInput || !fusionProbInput) {
         console.error('Input elements missing');
