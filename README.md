@@ -1,6 +1,6 @@
 # Viral Agent-Based Model (ABM) Simulation
 
-This project is a web-based simulation of a viral agent-based model, visualizing a hexagonal grid of cells that represent different states (Healthy, Eclipse, Infected, Fused, Dead, Other). The simulation features a responsive design, dynamic grid sizing based on the number of layers, and a visually appealing intro animation with sequential element fade-in.
+This project is a web-based simulation of a viral agent-based model, visualizing a hexagonal grid of cells that represent different states (Healthy, Eclipse, Infected, Fused, Dead, Other). The simulation features a responsive design, dynamic grid sizing based on the number of layers
 
 ## Prerequisites
 - Python 3.x

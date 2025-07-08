@@ -136,7 +136,7 @@ class ViralABM:
                 new_grid[ni, nj] = FUSED
                 fused_pairs.add((i, j))
                 fused_pairs.add((ni, nj))
-                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5)
+                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5) #1.5 can be changed later 
                 new_inf[ni, nj] = new_inf[i, j]
 
         # Update fused cells
