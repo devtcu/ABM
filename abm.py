@@ -2,7 +2,7 @@ import numpy as np
 import random
 from scipy.stats import gamma
 
-# Cell states
+# cell states
 HEALTHY = 'h'
 ECLIPSE = 'e'
 INFECTED = 'i'
@@ -29,7 +29,7 @@ class ViralABM:
         self.universal_times = np.zeros((self.grid_size, self.grid_size))
         self.PROBI = probi
         self.FUSION_PROB = fusion_prob
-        self.TIMESTEP = timestep
+        self.TIMESTEP = timestep #0.005hr is 18 seconds
         self.END_TIME = end_time
         self.TAU_E = tau_e #mean duration of eclipse state, so this is when a cell is infected but not producing virus YET
         self.TAU_I = tau_i #mean duration of the infection phase for cells in the infected state
@@ -92,7 +92,7 @@ class ViralABM:
                     self.healthy_times[i, j] += self.TIMESTEP
                     if random.random() < self.PROBI * self.TIMESTEP:
                         neighbors = self.get_neighbors(i, j)
-                        infected_neighbors = [n for n in neighbors if self.grid[n[0], n[1]] == INFECTED]
+                        infected_neighbors = [n for n in neighbors if self.grid[n[0], n[1]] in (FUSED, INFECTED)]
                         if infected_neighbors:
                             new_grid[i, j] = ECLIPSE
                             new_ecl[i, j] = gamma.rvs(self.NE, scale=self.TAU_E/self.NE)
@@ -136,10 +136,10 @@ class ViralABM:
                 new_grid[ni, nj] = FUSED
                 fused_pairs.add((i, j))
                 fused_pairs.add((ni, nj))
-                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5) #1.5 can be changed later 
+                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5) #1.5 can be changed later to alter the infection duration for syncytia
                 new_inf[ni, nj] = new_inf[i, j]
 
-        # Update fused cells
+        # Update fused cellss
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 if self.grid[i, j] == FUSED:
