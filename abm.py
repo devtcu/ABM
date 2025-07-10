@@ -2,7 +2,7 @@ import numpy as np
 import random
 from scipy.stats import gamma
 
-# cell states
+# cell states modified
 HEALTHY = 'h'
 ECLIPSE = 'e'
 INFECTED = 'i'
