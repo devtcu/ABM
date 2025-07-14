@@ -136,7 +136,7 @@ class ViralABM:
                 new_grid[ni, nj] = FUSED
                 fused_pairs.add((i, j))
                 fused_pairs.add((ni, nj))
-                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5) #1.5 can be changed later to alter the infection duration for syncytia
+                new_inf[i, j] = gamma.rvs(self.NI, scale=self.TAU_I/self.NI * 1.5) #1.5 can be changed later to alter the infection duration for syncytia (UPDATE: This might not be true. There is no change in probability with syncitia compared to regular)
                 new_inf[ni, nj] = new_inf[i, j]
 
         # Update fused cellss
