@@ -170,3 +170,6 @@ class ViralABM:
         for _ in range(current_step, steps):
             self.step()
         return self.get_state(target_time)
+    
+    
+    #A posible direction might be to 
