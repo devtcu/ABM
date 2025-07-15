@@ -171,5 +171,12 @@ class ViralABM:
             self.step()
         return self.get_state(target_time)
     
-    
-    #A posible direction might be to 
+
+
+"""  
+    A posible direction might be to get a collection of a bunch of the images that are 
+    formed after the simulation is run about 1000 times and then put it through unsupervised learning
+    to see if any patterns emerge (note: 1000 might not be enough, in which case, you might want to 
+    think about GPU parallel processing to scale up the execution)
+
+"""
