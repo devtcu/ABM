@@ -179,4 +179,6 @@ class ViralABM:
     to see if any patterns emerge (note: 1000 might not be enough, in which case, you might want to 
     think about GPU parallel processing to scale up the execution)
 
+        
+    -Bring in spatial heterogenity by analyzing alpha shapes
 """
