@@ -31,4 +31,8 @@ def step():
     return jsonify(abm.run_to_time(target_time))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Run locally with debug mode
+    app.run(debug=True, host='0.0.0.0')
+    
+# For Vercel - needed for serverless function support
+app.debug = False
