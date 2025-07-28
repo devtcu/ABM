@@ -11,6 +11,8 @@ This project is a web-based simulation of a viral agent-based model, visualizing
 - Web browser
 
 ## Installation
+Follow the link https://abm-sigma.vercel.app to access it, or follow the instructions below to run it on your local machine
+
 1. **Clone the Repository**:
 ```bash
 git clone https://github.com/your-username/viral-abm-simulation.git
